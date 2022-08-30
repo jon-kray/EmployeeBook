@@ -7,7 +7,7 @@ import org.junit.Test;
 public class MemEmployeeStoreTest {
     @Test
     public void whenSave() {
-        MemEmployeeRepository memEmployeeStore = new MemEmployeeRepository();
+        EmployeeRepository memEmployeeStore = new EmployeeRepository();
         Employee employee = new Employee("Evgeniy", "Russia");
         memEmployeeStore.save(employee);
         Employee result = memEmployeeStore.findById(employee.getId());

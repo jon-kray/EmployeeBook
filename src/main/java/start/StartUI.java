@@ -1,64 +1,54 @@
 package start;
 
-import model.Employee;
-import service.MemEmployeeService;
+import actions.*;
+import input.ConsoleInput;
+import input.Input;
+import service.EmployeeService;
 
-import java.util.Scanner;
+
 
 public class StartUI {
 
-
-    public static void main(String[] args) {
-        MemEmployeeService employeeService1 = new MemEmployeeService();
-
-        Scanner scanner = new Scanner(System.in);
+    public void init(Input input, EmployeeService employeeService, EmployeeAction[] employeeAction) {
 
         boolean isRunning = true;
 
         while (isRunning) {
-
-            StartUI.showMenu();
-
-            System.out.println("Enter value of menu.");
-
-            int value = scanner.nextInt();
-
-            if (value == 1) {
-                System.out.println("Enter name");
-                String name = scanner.next();
-
-                System.out.println("Enter country");
-                String country = scanner.next();
-
-                Employee employee = new Employee(name, country);
-
-                employeeService1.save(employee);
-
-            }else if (value == 2) {
-                System.out.println("Enter id");
-                long id = scanner.nextLong();
-                employeeService1.delete(id);
-            }else if (value == 3) {
-                for (Employee employee : employeeService1.findAll()) {
-                    System.out.println(employee);
-                }
-            }else if (value == 4) {
-                isRunning = false;
-                System.out.println("Close program.");
+            showMenu(employeeAction);
+            int select = (int) input.askLong("Select: ");
+            if (select < 0 || select >= employeeAction.length) {
+                System.out.println("Wrong input, you can select: 0 ... " + (employeeAction.length - 1));
+                continue;
             }
+            EmployeeAction action = employeeAction[select];
+            isRunning = action.execude(input, employeeService);
 
         }
-
     }
 
-    private static void showMenu() {
-        System.out.println("1. Save employee.");
-        System.out.println("2. Delete employee.");
-        System.out.println("3. Find all employees.");
-        System.out.println("4. Close program.");
+    private void showMenu(EmployeeAction[] employeeActions) {
+        System.out.println("Welcome. It is menu.");
+        for (int index = 0; index < employeeActions.length; index++) {
+            System.out.println(index + ". " + employeeActions[index].name());
+        }
     }
 
+    public static void main(String[] args) {
+        Input input = new ConsoleInput();
+        EmployeeService employeeService = new EmployeeService();
+
+        EmployeeAction[] actions = {
+                new CreateAction(),
+                new FindAllAction(),
+                new DeleteAction(),
+                new ExitProgrammAction()
+        };
+        new StartUI().init(input, employeeService, actions);
+    }
 }
+
+
+
 
 
 
