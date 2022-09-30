@@ -1,8 +1,14 @@
-package actions;
+package actions.impl;
 
+import actions.EmployeeAction;
+import dto.EmployeeDto;
 import input.Input;
 import model.Employee;
 import service.EmployeeService;
+import sort.Ordered;
+import util.OutputUtil;
+
+import java.util.List;
 
 public class FindAllAction implements EmployeeAction {
     @Override
@@ -12,9 +18,7 @@ public class FindAllAction implements EmployeeAction {
 
     @Override
     public boolean execude(Input input, EmployeeService employeeService) {
-        for (Employee employee : employeeService.findAll()) {
-            System.out.println(employee);
-        }
+        OutputUtil.print(employeeService.findAll(Ordered.DEFAULT));
         return true;
     }
 }

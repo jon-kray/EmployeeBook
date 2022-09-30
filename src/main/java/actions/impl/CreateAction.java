@@ -1,5 +1,7 @@
-package actions;
+package actions.impl;
 
+import actions.EmployeeAction;
+import dto.EmployeeDto;
 import input.Input;
 import model.Employee;
 import service.EmployeeService;
@@ -14,7 +16,7 @@ public class CreateAction implements EmployeeAction {
     public boolean execude(Input input, EmployeeService employeeService) {
         String name = input.askStr("Enter name: ");
         String city = input.askStr("Enter city: ");
-        Employee employee = new Employee(name, city);
+        EmployeeDto employee = new EmployeeDto(name, city);
         return employeeService.save(employee);
     }
 }
