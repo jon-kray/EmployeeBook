@@ -114,6 +114,11 @@ public class EmployeeMemRepository implements Repository<Long, Employee> {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void close() {
+        log.info("This is mem repository. Session is not found.");
+    }
+
     private int indexOf(long id) {
         return IntStream.range(0, store.size())
                 .filter(index -> store.get(index).getId() == id)

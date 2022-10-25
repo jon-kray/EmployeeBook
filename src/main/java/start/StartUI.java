@@ -7,7 +7,7 @@ import input.Input;
 import mapper.EmployeeMapper;
 import model.Employee;
 import repository.Repository;
-import repository.impl.EmployeeMemRepository;
+import repository.impl.EmployeeHibernateRepository;
 import service.EmployeeService;
 
 
@@ -40,7 +40,7 @@ public class StartUI {
 
     public static void main(String[] args) {
         final Input input = new ConsoleInput();
-        final Repository<Long, Employee> store = new EmployeeMemRepository();
+        final Repository<Long, Employee> store = new EmployeeHibernateRepository();
         final EmployeeService employeeService = new EmployeeService(store, new EmployeeMapper());
         final EmployeeAction[] actions = {
                 new CreateAction(),
@@ -53,6 +53,7 @@ public class StartUI {
                 new SortedByOrdedAction(),
                 new ExitProgrammAction()
         };
+        store.init();
         new StartUI().init(input, employeeService, actions);
     }
 }

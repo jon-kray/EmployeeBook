@@ -12,6 +12,7 @@ public class ExitProgrammAction implements EmployeeAction {
 
     @Override
     public boolean execude(Input input, EmployeeService employeeService) {
+        employeeService.closeAllSession();
         return false;
     }
 }

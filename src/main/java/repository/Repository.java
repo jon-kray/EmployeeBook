@@ -22,5 +22,7 @@ public interface Repository<K, V> {
 
     public List<V> findByCreatedDateInterval(LocalDateTime start, LocalDateTime end);
 
+    public void close();
+
 
 }
